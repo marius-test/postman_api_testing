@@ -21,4 +21,4 @@ Includes automated tests for HTTP response codes and response structure, with us
 - Token and IDs are managed via Postman environment/globals
 - Collection was manually imported for versioning purposes
 
-> All tests are written in Postman’s built-in JavaScript test editor.
+> All tests are written using JavaScript in Postman's built-in test editor and executed within the Postman application.
