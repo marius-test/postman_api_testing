@@ -2,7 +2,7 @@
 
 **API testing** demo using **Postman**, targeting the [Simple Book API](https://simple-books-api.glitch.me).
 
-## Overview
+### Overview
 
 This Postman collection covers:
 
@@ -15,7 +15,7 @@ This Postman collection covers:
 
 Includes automated tests for HTTP response codes and response structure, with use of variables and chaining via `setNextRequest()`.
 
-## Notes
+### Notes
 
 - Base URL: `https://simple-books-api.glitch.me`
 - Token and IDs are managed via Postman environment/globals
