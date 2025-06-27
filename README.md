@@ -1,3 +1,24 @@
-# api_testing_w_postman
+# postman_api_testing
 
-**API testing** demonstration in **Postman**
+**API testing** demo using **Postman**, targeting the [Simple Book API](https://simple-books-api.glitch.me).
+
+## Overview
+
+This Postman collection covers:
+
+- Status check
+- Client registration
+- Book listing and filtering
+- Single book details
+- Book ordering
+- Order lookup, update, and deletion
+
+Includes automated tests for HTTP response codes and response structure, with use of variables and chaining via `setNextRequest()`.
+
+## Notes
+
+- Base URL: `https://simple-books-api.glitch.me`
+- Token and IDs are managed via Postman environment/globals
+- Collection was manually imported for versioning purposes
+
+> All tests are written in Postman’s built-in JavaScript test editor.
