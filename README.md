@@ -22,3 +22,5 @@ Includes automated tests for HTTP response codes and response structure, with us
 - Collection was manually imported for versioning purposes
 
 > All tests are written using JavaScript in Postman's built-in test editor and executed within the Postman application.
+
+📄 **Full API documentation** available in [`simple_books_api_documentation.md`](simple_books_api_documentation.md).
