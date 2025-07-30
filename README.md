@@ -1,6 +1,6 @@
 # postman_api_testing
 
-**API testing** demo using **Postman**, targeting the [Simple Book API](https://simple-books-api.glitch.me).
+**API testing** demo using **Postman**, targeting the [Simple Books API](https://simple-books-api.click/).
 
 ### Overview
 
