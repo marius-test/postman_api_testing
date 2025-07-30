@@ -17,7 +17,7 @@ Includes automated tests for HTTP response codes and response structure, with us
 
 ### Notes
 
-- Base URL: `https://simple-books-api.glitch.me`
+- Base URL: `https://simple-books-api.click/`
 - Token and IDs are managed via Postman environment/globals
 - Collection was manually imported for versioning purposes
 
