@@ -131,7 +131,7 @@ To use any order-related endpoints, you must register your API client and get a 
 ```json
 {
   "clientName": "Marius",
-  "clientEmail": "marius@example.com"
+  "clientEmail": "marius@email.com"
 }
 ```
 
