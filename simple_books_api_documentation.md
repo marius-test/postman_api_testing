@@ -130,8 +130,8 @@ To use any order-related endpoints, you must register your API client and get a 
 **Request Body (JSON):**
 ```json
 {
-  "clientName": "YourApp",
-  "clientEmail": "you@example.com"
+  "clientName": "Marius",
+  "clientEmail": "marius@example.com"
 }
 ```
 
