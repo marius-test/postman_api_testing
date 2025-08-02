@@ -140,5 +140,3 @@ Returns an **access token** (valid for 7 days).
 
 **Error 409:**  
 API client already registered. Use a different `clientName` or `clientEmail`.
-
----
