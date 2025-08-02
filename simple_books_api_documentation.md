@@ -1,18 +1,18 @@
-# 📚 Simple Books API
+# Simple Books API
 
 **Base URL:** `https://simple-books-api.click`  
 This API allows you to **check book availability** and **place orders**.
 
 ---
 
-## 🔄 API Status
+## API Status
 
 **GET** `/status`  
 Check if the API is working.
 
 ---
 
-## 📖 List Books
+## List Books
 
 **GET** `/books`  
 Returns a list of available books.
@@ -29,7 +29,7 @@ GET /books?type=fiction&limit=5
 
 ---
 
-## 📕 Get Book Details
+## Get Book Details
 
 **GET** `/books/:bookId`  
 Retrieve detailed information about a specific book.
@@ -41,7 +41,7 @@ GET /books/1
 
 ---
 
-## 🛒 Submit an Order _(Authentication Required)_
+## Submit an Order _(Authentication Required)_
 
 **POST** `/orders`  
 Place a new order.
@@ -64,7 +64,7 @@ Returns the order ID.
 
 ---
 
-## 📋 Get All Orders _(Authentication Required)_
+## Get All Orders _(Authentication Required)_
 
 **GET** `/orders`  
 View a list of all orders.
@@ -76,7 +76,7 @@ Authorization: Bearer <YOUR TOKEN>
 
 ---
 
-## 📄 Get a Single Order _(Authentication Required)_
+## Get a Single Order _(Authentication Required)_
 
 **GET** `/orders/:orderId`  
 View details for a specific order.
@@ -88,7 +88,7 @@ Authorization: Bearer <YOUR TOKEN>
 
 ---
 
-## ✏️ Update an Order _(Authentication Required)_
+## Update an Order _(Authentication Required)_
 
 **PATCH** `/orders/:orderId`  
 Update customer name on an existing order.
@@ -107,7 +107,7 @@ Authorization: Bearer <YOUR TOKEN>
 
 ---
 
-## ❌ Delete an Order _(Authentication Required)_
+## Delete an Order _(Authentication Required)_
 
 **DELETE** `/orders/:orderId`  
 Delete an existing order.
@@ -121,7 +121,7 @@ Authorization: Bearer <YOUR TOKEN>
 
 ---
 
-## 🔐 API Authentication
+## API Authentication
 
 To use any order-related endpoints, you must register your API client and get a token.
 
