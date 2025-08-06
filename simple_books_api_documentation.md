@@ -125,7 +125,7 @@ Authorization: Bearer <YOUR TOKEN>
 
 To use any order-related endpoints, you must register your API client and get a token.
 
-**POST** `/api-clients/`  
+**POST** `/api-clients`  
 
 **Request Body (JSON):**
 ```json
