@@ -1,0 +1,1498 @@
+{
+	"info": {
+		"_postman_id": "f29c40d5-fa20-4dcd-9010-54eff6afa18c",
+		"name": "simple_book_api_v2.0-2025",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22877767"
+	},
+	"item": [
+		{
+			"name": "api_status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"// console.log(response.status);\r",
+							"// console.log(response['status']);\r",
+							"\r",
+							"pm.test(\"Status check\",() => {\r",
+							"    pm.expect(response.status).to.eql(\"OK\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{base_url}}/status"
+			},
+			"response": [
+				{
+					"name": "api_status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": "https://simple-books-api.click/status"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 20:46:44 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893bf34-56044a25213b6f3b6dc5f03d;Parent=458e0f114c238dd5;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "d61b33d9-499b-4159-aa39-df72cae221ea"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5rQPFCLoAMEUPw="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 3a65c9dde615de8123b1d207de65bacc.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "gNO6dJ8pFVZ8BE1PbklvZLLxl2Z5wvcPMmBGM5os0oMlClmNSWAomA=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": \"OK\"\n}"
+				}
+			]
+		},
+		{
+			"name": "register_api_client",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clientName\": \"John Smith\",\r\n  \"clientEmail\": \"john.smith@email.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/api-clients"
+			},
+			"response": []
+		},
+		{
+			"name": "list_of_books(fiction)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"// filter to get the first avilable book\r",
+							"const fiction_books = response.filter((book) => book.available == true);\r",
+							"\r",
+							"const book = fiction_books[0];\r",
+							"\r",
+							"if (book) {\r",
+							"    pm.globals.set(\"book_id\", book.id);\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Book verification\", () => {\r",
+							"    pm.expect(book).to.be.an('object');\r",
+							"    pm.expect(book.available).to.be.true;\r",
+							"    pm.expect(book.available).to.eql(true);\r",
+							"    pm.expect(book.type).to.eql('fiction');\r",
+							"});\r",
+							"\r",
+							"pm.globals.set(\"book_id\", book.id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/books?type=fiction&limit=20",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "fiction"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "list_of_books(fiction)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://simple-books-api.click/books?type=fiction&limit=20",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"click"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "fiction"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "283"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 19:52:03 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893b263-0e144ae75fd46b115498135a;Parent=2e957027f5e46792;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "7d5f4805-2572-48f1-98dc-b630a7f9683c"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5jPrENvIAMEjcQ="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 651cf5d0a06c74ce46a4d577371d508c.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "ohPA9XyLcshtfwP0ZGNLtPGfbcnM8ZVu-bVo7gDGwujwDGYWOyr6FQ=="
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"The Russian\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 3,\n        \"name\": \"The Vanishing Half\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 4,\n        \"name\": \"The Midnight Library\",\n        \"type\": \"fiction\",\n        \"available\": true\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Viscount Who Loved Me\",\n        \"type\": \"fiction\",\n        \"available\": true\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "list_of_books(non-fiction)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"// filter to get the first avilable book\r",
+							"const non_fiction_books = response.filter((book) => book.available == true);\r",
+							"\r",
+							"const book = non_fiction_books[0];\r",
+							"\r",
+							"if (book) {\r",
+							"    pm.globals.set(\"book_id\", book.id);\r",
+							"}\r",
+							"\r",
+							"pm.test(\"Book verification\", () => {\r",
+							"    pm.expect(book).to.be.an('object');\r",
+							"    pm.expect(book.available).to.be.true;\r",
+							"    pm.expect(book.available).to.eql(true);\r",
+							"    pm.expect(book.type).to.eql('non-fiction');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/books?type=non-fiction&limit=20",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"books"
+					],
+					"query": [
+						{
+							"key": "type",
+							"value": "non-fiction"
+						},
+						{
+							"key": "limit",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "list_of_books(non-fiction)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://simple-books-api.click/books?type=non-fiction&limit=20",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"click"
+							],
+							"path": [
+								"books"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "non-fiction"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "135"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 19:51:50 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893b256-727b0b8a5408e0ab01c47ae7;Parent=508afd277db441d0;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "538ba9b9-20d0-43a7-8b4a-0fbade6c26d2"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5jNmH5WoAMEiUQ="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 651cf5d0a06c74ce46a4d577371d508c.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "6O9xPaHY2RRGO6BLVg267GF21RuI2XoIV3a4iKAySFgY1YgtcPvPSQ=="
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 2,\n        \"name\": \"Just as I Am\",\n        \"type\": \"non-fiction\",\n        \"available\": false\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Untamed\",\n        \"type\": \"non-fiction\",\n        \"available\": true\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "book_details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Book in stock\", () => {\r",
+							"    pm.expect(response['current-stock']).to.be.above(0);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/books/:bookId",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"books",
+						":bookId"
+					],
+					"variable": [
+						{
+							"key": "bookId",
+							"value": "{{book_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "book_details",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://simple-books-api.click/books/:bookId",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"click"
+							],
+							"path": [
+								"books",
+								":bookId"
+							],
+							"variable": [
+								{
+									"key": "bookId",
+									"value": "{{book_id}}"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "120"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Aug 2025 15:11:33 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-689613a5-27beb106549f41e27eb29c6a;Parent=257c4ebba4d54669;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "12f0a551-6ce7-4f98-aadd-2839dbfd1e5b"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O_gB7HIsIAMEtag="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 242bc3f9f2b453f586c995114997fbac.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "Bq5XxDDNlFiw6AEqX31LEH-S71GFjfJ8wZWiiwm8befnOjwHWf-I7w=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 5,\n    \"available\": true,\n    \"name\": \"Untamed\",\n    \"current-stock\": 20,\n    \"price\": 15.5,\n    \"author\": \"Glennon Doyle\",\n    \"type\": \"non-fiction\"\n}"
+				}
+			]
+		},
+		{
+			"name": "order_book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"const response = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"order_id\", response.orderId);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"bookId\": {{book_id}},\r\n  \"customerName\": \"{{$randomFullName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/orders"
+			},
+			"response": [
+				{
+					"name": "order_book",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"bookId\": {{book_id}},\r\n  \"customerName\": \"{{$randomFullName}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/orders"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Aug 2025 15:28:07 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-68961787-01f2a16702c6e0de361783ad;Parent=40814a0ca486c093;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "fbf8f8dd-0785-4156-a63c-b37fb05416dc"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O_idPFfwoAMEJgw="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 5d219c13711b70ba6da9405b48e9ea06.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "CEIp1q8IOVHmbI1WNxpdKJ1UgKP-ELnx5dxxCxQPhm3Yw290fn6glg=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"created\": true,\n    \"orderId\": \"eQgvkW8L-7xycUhnubcnF\"\n}"
+				}
+			]
+		},
+		{
+			"name": "list_of_orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{base_url}}/orders"
+			},
+			"response": [
+				{
+					"name": "list_of_orders",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "https://simple-books-api.click/orders"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "461"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 20:32:18 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893bbd2-41722f9a266f8162392f0687;Parent=7f3eb6d246df21ae;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "bea89ea6-d41f-4835-a2f3-adcef9468067"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5pI5G-NoAMEXEA="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 349199c2d4bce4eb0554ad238203d5e4.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "LMFI-qazx9RHwn9aWKKBDphNU628uQuNk-aHFJFDGKG7WurVkcOBQA=="
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"0UBB3jxhGKzzz4lSLfRW3\",\n        \"bookId\": 1,\n        \"customerName\": \"Alexis Keebler DVM\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509947647\n    },\n    {\n        \"id\": \"CjQe2WniNcw8XqNdfI8mu\",\n        \"bookId\": 1,\n        \"customerName\": \"Bethany Collier\",\n        \"quantity\": 1,\n        \"timestamp\": 1754510023427\n    },\n    {\n        \"id\": \"HKSOGOcpfjyxtHXAPP7Cj\",\n        \"bookId\": 1,\n        \"customerName\": \"Mrs. Brandi Mitchell\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509996193\n    },\n    {\n        \"id\": \"oG4J2fsWDkV48VFQ0br4j\",\n        \"bookId\": 1,\n        \"customerName\": \"Seth Hessel\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509889131\n    }\n]"
+				},
+				{
+					"name": "list_of_orders(updated)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/orders"
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "339"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 20:37:45 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893bd19-7f389ead2888bb7836096b2e;Parent=4b0c9b0d89e5c4cd;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "7c6cdaea-a550-48d4-af1f-d3f8b0221e90"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5p8DHMuIAMEJgw="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 9b435e7a8d74607fede4b1f1f66d58dc.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "QSaTQ4d5mWP7qw6HihSonmmhce6DSmSp35TnSePkTkcmwIuK-G4bnA=="
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": \"0UBB3jxhGKzzz4lSLfRW3\",\n        \"bookId\": 1,\n        \"customerName\": \"John Smith\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509947647\n    },\n    {\n        \"id\": \"HKSOGOcpfjyxtHXAPP7Cj\",\n        \"bookId\": 1,\n        \"customerName\": \"Mrs. Brandi Mitchell\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509996193\n    },\n    {\n        \"id\": \"oG4J2fsWDkV48VFQ0br4j\",\n        \"bookId\": 1,\n        \"customerName\": \"Seth Hessel\",\n        \"quantity\": 1,\n        \"timestamp\": 1754509889131\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "view_single_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders/:orderId",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{order_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "view_single_order",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://simple-books-api.click/orders/:orderId",
+							"protocol": "https",
+							"host": [
+								"simple-books-api",
+								"click"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "0UBB3jxhGKzzz4lSLfRW3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "116"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 20:34:04 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893bc3c-4526e6de414d276d66b3cf86;Parent=1786afcee41510af;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "3fa648b1-61b9-4303-98a4-2b2173025497"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5pZcEUcoAMERPg="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 eb5404df751050cb794699dc9d953726.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "P8cddAlkyn7_gZ9qT49p2Y24ynTvjiKKWnuq9n_ux5PmWF8VQuNwyQ=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"0UBB3jxhGKzzz4lSLfRW3\",\n    \"bookId\": 1,\n    \"customerName\": \"Alexis Keebler DVM\",\n    \"quantity\": 1,\n    \"timestamp\": 1754509947647\n}"
+				},
+				{
+					"name": "view_single_order(updated)",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/:orderId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "0UBB3jxhGKzzz4lSLfRW3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "108"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 06 Aug 2025 20:36:38 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6893bcd6-079393261350c1183ed67c43;Parent=4ecf558213106a58;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "50415d72-5336-4d93-97a6-0c2f9219e0f7"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O5pxkFbRoAMEjRw="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 349199c2d4bce4eb0554ad238203d5e4.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "Yri4SWlp5uxs52o1ZXdmtM2uqTEUxUk0M8N5DjyiF3nu9pcxMhCFpA=="
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": \"0UBB3jxhGKzzz4lSLfRW3\",\n    \"bookId\": 1,\n    \"customerName\": \"John Smith\",\n    \"quantity\": 1,\n    \"timestamp\": 1754509947647\n}"
+				}
+			]
+		},
+		{
+			"name": "update_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", () => {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerName\": \"John Smith\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders/:orderId",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{order_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "update_order",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"customerName\": \"John Smith\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/:orderId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Aug 2025 15:28:21 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-68961795-7f2048025245038474b19594;Parent=348f8daeb19d0a56;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "e1511da2-3d3a-49de-b75c-063f2d7510b4"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O_ifXFNfoAMELiw="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 5d219c13711b70ba6da9405b48e9ea06.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "Eg8Ks3OSI0tYyGl0dwX6ZKNnkXtBdhFh3UfT0uIP97rIRHws3u9pDg=="
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		},
+		{
+			"name": "delete_order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 204\", () => {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{access_token}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/orders/:orderId",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{order_id}}"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "delete_order",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/orders/:orderId",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"orders",
+								":orderId"
+							],
+							"variable": [
+								{
+									"key": "orderId",
+									"value": "{{order_id}}"
+								}
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 08 Aug 2025 15:28:27 GMT"
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-6896179b-53ac6bc6087c4e070c82729f;Parent=5e369535398657b8;Sampled=0;Lineage=1:9ee0f5ed:0"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "2acf9e87-1a4f-4642-8a4a-d120b2d58117"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Access-Control-Allow-Headers",
+							"value": "Content-Type, Authorization, X-Amz-Date, X-Api-Key, X-Amz-Security-Token"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "O_igaEG9IAMEJXA="
+						},
+						{
+							"key": "Access-Control-Allow-Methods",
+							"value": "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+						},
+						{
+							"key": "X-Cache",
+							"value": "Miss from cloudfront"
+						},
+						{
+							"key": "Via",
+							"value": "1.1 5d219c13711b70ba6da9405b48e9ea06.cloudfront.net (CloudFront)"
+						},
+						{
+							"key": "X-Amz-Cf-Pop",
+							"value": "MIA3-P2"
+						},
+						{
+							"key": "X-Amz-Cf-Id",
+							"value": "KAmSqEILBBQuUSHs06VoOINZz1cFgDVOhLtXxfNiUmJlevtbGlhyAw=="
+						}
+					],
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://simple-books-api.click",
+			"type": "string"
+		},
+		{
+			"key": "access_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
